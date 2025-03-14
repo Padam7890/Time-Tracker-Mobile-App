@@ -1,11 +1,20 @@
 import RadialEllipse from "@/components/iconComponents/radialelipsecom";
-import { Button, ScrollView, Text, TouchableOpacity, View } from "react-native";
+import List from "@/components/utils/list";
+import { TASK_LISTS } from "@/utils/dummycontent";
+import {
+  Button,
+  FlatList,
+  ScrollView,
+  Text,
+  TouchableOpacity,
+  View,
+} from "react-native";
 import Icon from "react-native-vector-icons/AntDesign";
 
 export default function Index() {
   return (
-    <View className=" mt-32 px-5 flex-col gap-6">
-      <View className=" flex flex-col gap-6">
+    <View className="flex-1 mt-32 px-5 flex-col gap-6">
+      <View className=" flex-col gap-6">
         <Text
           style={{
             fontFamily: "RubikMedium",
@@ -45,15 +54,45 @@ export default function Index() {
             </Text>
           </View>
         </View>
-        </View>
-        <View className="flex-row items-center w-full">
-          <View className="flex-row items-center justify-between w-full">
-          <Text style={{
-            fontFamily: "RubikMedium",
-          }} className=" text-black text-2xl">Today</Text>
-          <Button title="See All" />
-          </View>
-        </View>
       </View>
+      <View className="flex-1 flex-col items-center w-full">
+        <View className="flex-row items-center justify-between w-full">
+          <Text
+            style={{
+              fontFamily: "RubikMedium",
+            }}
+            className=" text-black text-2xl"
+          >
+            Today
+          </Text>
+          <Button title="See All" />
+        </View>
+       <View className="flex-1 w-full mb-3">
+         {/* render list of items here */}
+            <ScrollView
+            showsVerticalScrollIndicator={true}
+            contentContainerStyle={{
+              minHeight: "100%",
+              paddingBottom: 80,
+            }}
+            className="flex-1 w-full"
+
+            >
+            <FlatList 
+            numColumns={1}
+            data={TASK_LISTS} 
+            renderItem= {({item}) =>(
+                <List {...item} />
+            )}
+            className="w-full pb-5 "
+            ItemSeparatorComponent={() => <View className="h-4" />} // Adds space between items
+            scrollEnabled={false}
+            keyExtractor={(item) => item.id.toString()}
+
+            />
+            </ScrollView>
+       </View>
+      </View>
+    </View>
   );
 }
