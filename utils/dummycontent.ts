@@ -5,6 +5,7 @@ export const TASK_LISTS = [
     tags: ["Work", "Rasion Project"],
     priority: 1,
     timeTaken: "00:42:21",
+    status:"completed"
   },
   {
     id: 2,
@@ -12,6 +13,8 @@ export const TASK_LISTS = [
     tags: ["Work", "Rasion Project"],
     priority: 1,
     timeTaken: "00:42:21",
+    status:"completed"
+
   },
   {
     id: 3,
@@ -19,6 +22,8 @@ export const TASK_LISTS = [
     tags: ["Work", "Rasion Project"],
     priority: 1,
     timeTaken: "00:42:21",
+    status:"completed"
+
   },
 
   {
@@ -27,18 +32,24 @@ export const TASK_LISTS = [
     tags: ["Work", "Rasion Project"],
     priority: 1,
     timeTaken: "00:42:21",
+    status:"completed"
+
   }, {
     id: 5,
     title: "UI Design",
     tags: ["Work", "Rasion Project"],
     priority: 1,
     timeTaken: "00:42:21",
+    status:"completed"
+
   }, {
     id: 6,
     title: "UI Design",
     tags: ["Work", "Rasion Project"],
     priority: 1,
     timeTaken: "00:42:21",
+    status:"completed"
+
   },
   {
     id: 7,
@@ -46,6 +57,8 @@ export const TASK_LISTS = [
     tags: ["Work", "Rasion Project"],
     priority: 1,
     timeTaken: "00:42:21",
+    status:"completed"
+
   },
   {
     id: 8,
@@ -53,5 +66,7 @@ export const TASK_LISTS = [
     tags: ["Work", "Rasion Project"],
     priority: 1,
     timeTaken: "00:42:21",
+    status:"completed"
+
   },
 ];
