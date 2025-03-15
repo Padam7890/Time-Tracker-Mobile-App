@@ -1,16 +1,22 @@
 import { View, Image } from "react-native";
-import React from "react";
-import { Tabs } from "expo-router";
+import React, { useState } from "react";
 import { icons } from "@/constants/icons";
+import { Tabs } from "expo-router";
+import { ModalProvider, useModal } from "@/context/modelcontext"; // Import modal context
+import TaskAdd from "./taskadd";
+import { Modal } from "react-native";
 
-function TabIcon({ focused, icon,size }: any) {
+// Tab Icon Component
+function TabIcon({ focused, icon, size }: any) {
   return (
-    <View style={{ 
-      justifyContent: "center", 
-      alignItems: "center", 
-      position: "absolute", 
-      top: "25%", 
-    }}>
+    <View
+      style={{
+        justifyContent: "center",
+        alignItems: "center",
+        position: "absolute",
+        top: "25%",
+      }}
+    >
       <Image
         source={icon}
         tintColor="#151312"
@@ -25,15 +31,17 @@ function TabIcon({ focused, icon,size }: any) {
   );
 }
 
-const _layout = () => {
+export const _layout = () => {
+  const { openModal,isModalVisible } = useModal(); 
   return (
+    <>
     <Tabs
       screenOptions={{
         tabBarShowLabel: false,
         tabBarItemStyle: {
           justifyContent: "center",
           alignItems: "center",
-          flex: 1, 
+          flex: 1,
         },
         tabBarStyle: {
           backgroundColor: "#fff",
@@ -41,7 +49,7 @@ const _layout = () => {
           marginHorizontal: 20,
           marginBottom: 36,
           height: 60,
-          alignItems: "center", 
+          alignItems: "center",
           justifyContent: "center",
           position: "absolute",
           borderWidth: 1,
@@ -49,6 +57,7 @@ const _layout = () => {
         },
       }}
     >
+      {/* Home Tab */}
       <Tabs.Screen
         name="index"
         options={{
@@ -59,17 +68,27 @@ const _layout = () => {
           ),
         }}
       />
-        <Tabs.Screen
+
+      {/* Add Task - Opens Modal Instead of Navigating */}
+      <Tabs.Screen
         name="taskadd"
+        listeners={() => ({
+          tabPress: (e) => {
+            e.preventDefault(); 
+            openModal(); 
+          },
+        })}
         options={{
           title: "taskadd",
           headerShown: false,
           tabBarIcon: ({ focused }) => (
-            <TabIcon focused={focused} size="35" icon={icons.icon_add} />
+            <TabIcon focused={focused || isModalVisible} size="35" icon={icons.icon_add} />
           ),
         }}
       />
-        <Tabs.Screen
+
+      {/* Report Tab */}
+      <Tabs.Screen
         name="report"
         options={{
           title: "report",
@@ -80,7 +99,16 @@ const _layout = () => {
         }}
       />
     </Tabs>
+    <TaskAdd/>
+    </>
   );
 };
 
-export default _layout;
+
+export default function Layout() {
+  return (
+    <ModalProvider>
+      <_layout />
+    </ModalProvider>
+  );
+}
