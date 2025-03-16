@@ -35,12 +35,15 @@ const useTasks = create<taskState>((set) => ({
       return { tasks: updatedTasks };
     }),
 
+
   completeTask: (taskId: string | number) =>
     set((state) => ({
       tasks: state.tasks.map((task) =>
         task.id === taskId ? { ...task, status: "completed" } : task
       ),
     })),
+
+
 
   deleteTask: (taskId: string | number) =>
     set((state) => ({
