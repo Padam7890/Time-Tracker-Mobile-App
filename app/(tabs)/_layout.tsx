@@ -5,6 +5,7 @@ import { Tabs } from "expo-router";
 import { ModalProvider, useModal } from "@/context/modelcontext"; // Import modal context
 import TaskAdd from "./taskadd";
 import { Modal } from "react-native";
+import { GestureHandlerRootView } from "react-native-gesture-handler";
 
 // Tab Icon Component
 function TabIcon({ focused, icon, size }: any) {

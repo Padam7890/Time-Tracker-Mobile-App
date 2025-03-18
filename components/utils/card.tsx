@@ -8,7 +8,7 @@ interface Props {
 
 const Card = ({children,className}:Props) => {
   return (
-    <View className={`bg-white rounded-l ${className}`}>
+    <View  className={`bg-white rounded-l ${className}`}>
         {children}
     </View>
   )

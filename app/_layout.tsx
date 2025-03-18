@@ -7,7 +7,8 @@ export default function RootLayout() {
   const fontsLoaded = useCustomFonts();
   if (!fontsLoaded) {
     return <ActivityIndicator size="large" color="#0000ff" />;
-  }  return (
+  }
+  return (
     <Stack
       screenOptions={{
         headerShown: false,
@@ -20,6 +21,14 @@ export default function RootLayout() {
         name="(tabs)"
         options={{
           headerShown: false,
+        }}
+      />
+
+      <Stack.Screen
+        name="taskdetails"        
+        options={{
+          headerShown: false,
+          
         }}
       />
     </Stack>

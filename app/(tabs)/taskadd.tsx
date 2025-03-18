@@ -5,30 +5,29 @@ import {
   TouchableOpacity,
   TextInput,
   Button,
-  TextInputChangeEventData,
-  GestureResponderEvent,
 } from "react-native";
 import React, { useState } from "react";
 import { useModal } from "@/context/modelcontext";
 import { Formik, FormikValues } from "formik";
 import { taskValidationSchema } from "@/utils/schema";
 import useTasks from "@/store/liststore";
-import { Dropdown } from "react-native-element-dropdown";
 
 const TaskAdd = () => {
   const { tasks, addTask } = useTasks();
   const { isModalVisible, closeModal } = useModal();
   const handleSaveTask = (value: FormikValues) => {
+
+    //check if
     addTask({
       id: tasks.length + 1,
       title: value.taskname,
       tags: value.tasktags.split(","),
       priority: 1,
-      status:"pending",
+      status: "pending",
       timeTaken: "00:00:00",
     });
     console.log(value);
-    closeModal();
+    // closeModal();
   };
 
   return (
@@ -101,7 +100,7 @@ const TaskAdd = () => {
                       value={values.tasktags}
                       onChangeText={handleChange("tasktags")}
                       onBlur={handleBlur("tasktags")}
-                      placeholder="Task Name"
+                      placeholder="Task Tags"
                       className=" border border-[#F1F5F9] p-3 rounded-md placeholder:bg-[#F1F5F9] placeholder:text-[#49494a]"
                     />
 
@@ -117,16 +116,11 @@ const TaskAdd = () => {
                     <Button onPress={closeModal} title="Cancel" />
                   </TouchableOpacity>
                   <TouchableOpacity className="mt-1 p-2 rounded-lg bg-black text-white w-full ">
-                    <Text
-                      style={{
-                        fontFamily: "RubikPrimary",
-                      }}
-                      className="text-lg font-bold text-white text-center"
+                    <Button
+                      title="Save"
                       onPress={() => handleSubmit()}
                       disabled={!values.taskname || !values.tasktags}
-                    >
-                      Save
-                    </Text>
+                    />
                   </TouchableOpacity>
                 </View>
               </>
