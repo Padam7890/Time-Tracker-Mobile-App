@@ -10,9 +10,12 @@ export interface IListItem {
     title: string;
     tags: string[];
     priority: number;
+    timeLimit: string;
     timeTaken: string;
     status?: string;
     color?: string;
     createdAt?: string;
+    extendTime?: string;
+    timercycle?: number;
 }
 export type ListItems = IListItem[]

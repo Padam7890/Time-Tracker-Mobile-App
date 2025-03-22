@@ -6,31 +6,9 @@ import { ModalProvider, useModal } from "@/context/modelcontext"; // Import moda
 import TaskAdd from "./taskadd";
 import { Modal } from "react-native";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
+import TabIcon from "@/components/iconComponents/tabicon";
 
-// Tab Icon Component
-function TabIcon({ focused, icon, size }: any) {
-  return (
-    <View
-      style={{
-        justifyContent: "center",
-        alignItems: "center",
-        position: "absolute",
-        top: "25%",
-      }}
-    >
-      <Image
-        source={icon}
-        tintColor="#151312"
-        style={{
-          width: focused ? 35 : size,
-          height: focused ? 35 : size,
-          resizeMode: "contain",
-          opacity: focused ? 1 : 0.5,
-        }}
-      />
-    </View>
-  );
-}
+
 
 export const _layout = () => {
   const { openModal,isModalVisible } = useModal(); 
@@ -76,6 +54,7 @@ export const _layout = () => {
         listeners={() => ({
           tabPress: (e) => {
             e.preventDefault(); 
+            console.log("hello world")
             openModal(); 
           },
         })}
