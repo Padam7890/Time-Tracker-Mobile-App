@@ -8,12 +8,12 @@ import { useRouter } from "expo-router";
 
 
 
-const List = ({ id, title, tags, priority, timeLimit }:IListItem) => {
+const List = ({ id, title, tags, timeLimit }:IListItem) => {
   const navigation = useRouter();
   const isAndroid = Platform.OS === "android";
 
   const content = (
-    <Card className="flex-row gap-4 w-full h-24 items-center justify-between p-4">
+    <Card className="flex-row gap-4 w-full h-24 items-center justify-between rounded-lg p-4">
       {/* Icon */}
       <View className="flex flex-row items-center gap-4">
         <CirclewithIcon bg_color="#FFA656" iconname="computer" />
@@ -38,6 +38,7 @@ const List = ({ id, title, tags, priority, timeLimit }:IListItem) => {
               ))}
             </View>
           </View>
+
         </View>
       </View>
 

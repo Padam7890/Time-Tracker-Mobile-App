@@ -66,6 +66,7 @@ export const _layout = () => {
           ),
         }}
       />
+      
 
       {/* Report Tab */}
       <Tabs.Screen

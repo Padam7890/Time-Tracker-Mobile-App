@@ -5,6 +5,13 @@
 // tags: ["Work", "Rasion Project"],
 // priority: 1,
 // timeTaken:"00:42:21"
+
+export enum status {
+    pending = "pending",
+    completed = "completed",
+}
+
+
 export interface IListItem {
     id: number|string;
     title: string;
@@ -12,7 +19,7 @@ export interface IListItem {
     priority: number;
     timeLimit: string;
     timeTaken: string;
-    status?: string;
+    status?: status
     color?: string;
     createdAt?: string;
     extendTime?: string;

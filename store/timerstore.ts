@@ -3,6 +3,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import { persist, createJSONStorage } from "zustand/middleware";
 import useTasks from "./liststore";
 import { addTimes } from "@/utils/funcs";
+import { IListItem } from "@/types/home";
 
 // Define state shape
 interface TaskTimerState {
@@ -11,11 +12,13 @@ interface TaskTimerState {
     { time: string; isRunning: boolean; timer: NodeJS.Timeout | null }
   >;
   taskId: string | null;
-  extendTime:(extendTime:string) =>void;
+  getTaskWhichisRunning: () => IListItem | null;
+  extendTime: (extendTime: string) => void;
   setTaskById: (id: string) => void;
   startTimer: () => void;
   stopTimer: () => void;
   resetTimer: () => void;
+  removeTaskWithTimer: (id: number) => void;
   updateTaskWithTimer: (task: any) => void;
 }
 
@@ -44,11 +47,28 @@ const useTaskTimer = create<TaskTimerState>()(
         const { taskId, taskTimers } = get();
         if (!taskId) return;
         const task = useTasks.getState().getTaskById(taskId);
-
-        // Stop previous timer if it exists
+        //stop previous any timer running then stop that timer
+        //useless code below:
         if (taskTimers[taskId]?.timer) {
           clearInterval(taskTimers[taskId].timer!);
         }
+        // Stop any running timer for any task
+        Object.values(taskTimers).forEach(({ timer }) => {
+          if (timer) {
+            clearInterval(timer);
+            // also i want to isrunning false for previous run
+          }
+        });
+
+        // Set `isRunning` to false for all tasks before starting a new one
+        set((state) => ({
+          taskTimers: Object.fromEntries(
+            Object.entries(state.taskTimers).map(([id, timerData]) => [
+              id,
+              { ...timerData, isRunning: false, timer: null },
+            ])
+          ),
+        }));
 
         // Check if we already have an initial time saved
         let [hours, minutes, seconds] = taskTimers[taskId]?.time
@@ -105,7 +125,7 @@ const useTaskTimer = create<TaskTimerState>()(
                   ...state.taskTimers[taskId],
                   isRunning: false,
                   timer: null,
-                  time: formattedTime, // Update with final time
+                  time: formattedTime,
                 },
               },
             }));
@@ -134,6 +154,25 @@ const useTaskTimer = create<TaskTimerState>()(
           },
         }));
       },
+      removeTaskWithTimer: (id: number) => {
+        const { taskTimers } = get();
+        if (!id) return;
+        // Stop the timer
+        if (taskTimers[id]?.timer) {
+          clearInterval(taskTimers[id].timer!);
+        }
+        // Remove the timer from the state
+        set((state) => ({
+          taskTimers: {
+            ...Object.fromEntries(
+              Object.entries(state.taskTimers).filter(([id]) => id !== id)
+            ),
+          },
+        }));
+        //remove the task from
+        useTasks.getState().deleteTask(id);
+      },
+
       extendTime: (extendedTime: string) => {
         const { taskId, taskTimers } = get();
         if (!taskId) return;
@@ -199,6 +238,22 @@ const useTaskTimer = create<TaskTimerState>()(
           useTasks.getState().updateTask(task);
         }
         console.log(`Task ${taskId} time recorded: ${timeTaken}`);
+      },
+
+      //get task which is currently running
+      getTaskWhichisRunning: () => {
+        const { taskTimers } = useTaskTimer.getState();
+        const taskId = Object.keys(taskTimers).find(
+          (id) => taskTimers[id].isRunning
+        );
+        if (taskId) {
+          const task = useTasks.getState().getTaskById(taskId);
+          if (task) { 
+            return task;
+            // console.log(`Task ${task.title} is currently running.`);
+          }
+        }
+        return null;
       },
     }),
 

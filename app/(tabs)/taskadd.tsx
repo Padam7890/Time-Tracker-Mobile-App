@@ -14,7 +14,8 @@ import { Formik, FormikValues } from "formik";
 import { taskValidationSchema } from "@/utils/schema";
 import useTasks from "@/store/liststore";
 
-import useTaskTimer from "@/store/timerstore";
+import uuid from "react-native-uuid";
+import { status } from "@/types/home";
 
 const TaskAdd = () => {
   const { tasks, addTask } = useTasks();
@@ -24,18 +25,20 @@ const TaskAdd = () => {
   const handleSaveTask = (value: FormikValues) => {
     // Check if timeLimit is in the correct format and save the task
     addTask({
-      id: 0,
+      id: uuid.v4(),
       title: value.taskname,
       tags: value.tasktags.split(","),
       priority: 1,
-      status: "pending",
+      status:status.pending,
       timeTaken: "00:00:00",
       timeLimit: value.timeLimit,
-      timercycle:0,
+      timercycle: 0,
     });
     console.log(value.timeLimit);
-    // closeModal();
+    closeModal();
   };
+
+  //back ios
 
   return (
     <SafeAreaView>
